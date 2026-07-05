@@ -6,6 +6,7 @@ import { Projects } from "@/components/portfolio/Projects";
 import { Services } from "@/components/portfolio/Services";
 import { Contact } from "@/components/portfolio/Contact";
 import { Footer } from "@/components/portfolio/Footer";
+import { Testimonials } from "@/components/portfolio/Testimonials";
 
 const Index = () => (
   <div className="min-h-screen bg-background overflow-x-hidden">
@@ -16,6 +17,7 @@ const Index = () => (
       <Skills />
       <Projects />
       <Services />
+      <Testimonials />
       <Contact />
     </main>
     <Footer />
