@@ -4,7 +4,8 @@ import { DashboardOverview } from "@/components/admin/DashboardOverview";
 import { ProjectsManager } from "@/components/admin/ProjectsManager";
 import { MediaManager } from "@/components/admin/MediaManager";
 import { ServicesManager, SkillsManager, TestimonialsManager, SettingsManager } from "@/components/admin/Managers";
-import { isAuthed, logout } from "@/lib/auth";
+import { isAdmin, logout } from "@/lib/auth";
+import { loadPortfolio } from "@/store/portfolio";
 import { LayoutDashboard, FolderKanban, Image, Sparkles, Wrench, MessageSquareQuote, Settings, LogOut, ExternalLink, Menu, X } from "lucide-react";
 
 type Tab = "overview" | "projects" | "media" | "services" | "skills" | "testimonials" | "settings";
@@ -21,14 +22,30 @@ const NAV: { id: Tab; label: string; icon: typeof LayoutDashboard }[] = [
 
 const Admin = () => {
   const [authed, setAuthed] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [tab, setTab] = useState<Tab>("overview");
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => { setAuthed(isAuthed()); }, []);
+  useEffect(() => {
+    (async () => {
+      const ok = await isAdmin();
+      if (ok) await loadPortfolio(true);
+      setAuthed(ok);
+      setChecking(false);
+    })();
+  }, []);
 
-  if (!authed) return <AdminLogin onSuccess={() => setAuthed(true)} />;
+  if (checking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="h-10 w-10 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+      </div>
+    );
+  }
 
-  const doLogout = () => { logout(); setAuthed(false); };
+  if (!authed) return <AdminLogin onSuccess={async () => { await loadPortfolio(true); setAuthed(true); }} />;
+
+  const doLogout = async () => { await logout(); setAuthed(false); };
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">

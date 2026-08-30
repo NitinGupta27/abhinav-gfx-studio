@@ -1,15 +1,9 @@
 import { useMemo, useRef, useState } from "react";
 import { portfolioStore, usePortfolio, Project } from "@/store/portfolio";
+import { uploadMedia } from "@/lib/media";
 import { Plus, Trash2, ArrowUp, ArrowDown, Star, Eye, EyeOff, Upload, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
-const fileToDataUrl = (file: File): Promise<string> =>
-  new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(String(r.result));
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
 
 export const ProjectsManager = () => {
   const { projects } = usePortfolio();
@@ -116,8 +110,14 @@ const ProjectEditor = ({ initial, onSave, onClose }: { initial: Project; onSave:
   const fileRef = useRef<HTMLInputElement>(null);
 
   const upload = async (f: File) => {
-    if (f.size > 3 * 1024 * 1024) return toast.error("Image too large (max 3MB)");
-    setP({ ...p, image: await fileToDataUrl(f) });
+    if (f.size > 10 * 1024 * 1024) return toast.error("Image too large (max 10MB)");
+    try {
+      const url = await uploadMedia(f);
+      setP({ ...p, image: url });
+      toast.success("Image uploaded");
+    } catch {
+      toast.error("Upload failed");
+    }
   };
 
   return (
