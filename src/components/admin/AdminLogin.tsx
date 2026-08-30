@@ -38,15 +38,16 @@ export const AdminLogin = ({ onSuccess }: { onSuccess: () => void }) => {
 
         <div className="space-y-4">
           <label className="block">
-            <span className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">Username</span>
+            <span className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">Email</span>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 autoFocus
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-input/60 border border-white/10 focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20 transition"
-                placeholder="abhinav"
+                placeholder="you@email.com"
               />
             </div>
           </label>
