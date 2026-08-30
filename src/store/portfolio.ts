@@ -166,7 +166,7 @@ async function push() {
   setSaving(true);
   const { error } = await supabase
     .from("site_content")
-    .upsert({ id: ROW_ID, data: state as unknown as Record<string, unknown> }, { onConflict: "id" });
+    .upsert({ id: ROW_ID, data: JSON.parse(JSON.stringify(state)) }, { onConflict: "id" });
   setSaving(false);
   if (error) {
     console.error("Failed to save site content", error);
