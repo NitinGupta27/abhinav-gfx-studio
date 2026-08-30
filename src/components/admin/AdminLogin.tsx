@@ -1,25 +1,24 @@
 import { useState } from "react";
-import { login } from "@/lib/auth";
-import { Sparkles, Lock, User } from "lucide-react";
+import { login, ADMIN_EMAIL } from "@/lib/auth";
+import { Sparkles, Lock, Mail } from "lucide-react";
 import { toast } from "sonner";
 
 export const AdminLogin = ({ onSuccess }: { onSuccess: () => void }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState(ADMIN_EMAIL);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      if (login(username.trim(), password)) {
-        toast.success("Welcome back, Abhinav");
-        onSuccess();
-      } else {
-        toast.error("Invalid credentials");
-      }
-      setLoading(false);
-    }, 400);
+    const res = await login(email, password);
+    setLoading(false);
+    if (res.ok) {
+      toast.success("Welcome back, Abhinav");
+      onSuccess();
+    } else {
+      toast.error(res.error || "Invalid credentials");
+    }
   };
 
   return (
