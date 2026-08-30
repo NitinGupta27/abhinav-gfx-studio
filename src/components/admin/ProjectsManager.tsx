@@ -1,15 +1,9 @@
 import { useMemo, useRef, useState } from "react";
 import { portfolioStore, usePortfolio, Project } from "@/store/portfolio";
+import { uploadMedia } from "@/lib/media";
 import { Plus, Trash2, ArrowUp, ArrowDown, Star, Eye, EyeOff, Upload, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
-const fileToDataUrl = (file: File): Promise<string> =>
-  new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(String(r.result));
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
 
 export const ProjectsManager = () => {
   const { projects } = usePortfolio();
