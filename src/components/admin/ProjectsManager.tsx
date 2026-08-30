@@ -110,8 +110,14 @@ const ProjectEditor = ({ initial, onSave, onClose }: { initial: Project; onSave:
   const fileRef = useRef<HTMLInputElement>(null);
 
   const upload = async (f: File) => {
-    if (f.size > 3 * 1024 * 1024) return toast.error("Image too large (max 3MB)");
-    setP({ ...p, image: await fileToDataUrl(f) });
+    if (f.size > 10 * 1024 * 1024) return toast.error("Image too large (max 10MB)");
+    try {
+      const url = await uploadMedia(f);
+      setP({ ...p, image: url });
+      toast.success("Image uploaded");
+    } catch {
+      toast.error("Upload failed");
+    }
   };
 
   return (
