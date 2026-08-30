@@ -4,7 +4,8 @@ import { DashboardOverview } from "@/components/admin/DashboardOverview";
 import { ProjectsManager } from "@/components/admin/ProjectsManager";
 import { MediaManager } from "@/components/admin/MediaManager";
 import { ServicesManager, SkillsManager, TestimonialsManager, SettingsManager } from "@/components/admin/Managers";
-import { isAuthed, logout } from "@/lib/auth";
+import { isAdmin, logout } from "@/lib/auth";
+import { loadPortfolio } from "@/store/portfolio";
 import { LayoutDashboard, FolderKanban, Image, Sparkles, Wrench, MessageSquareQuote, Settings, LogOut, ExternalLink, Menu, X } from "lucide-react";
 
 type Tab = "overview" | "projects" | "media" | "services" | "skills" | "testimonials" | "settings";
