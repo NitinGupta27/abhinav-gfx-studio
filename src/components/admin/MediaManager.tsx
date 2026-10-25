@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { portfolioStore, usePortfolio } from "@/store/portfolio";
 import { Upload, Trash2, ImageIcon, Video as VideoIcon } from "lucide-react";
 import { toast } from "sonner";
-import { fileToDataUrl } from "./ProjectsManager";
+import { uploadMedia } from "@/lib/media";
 
 export const MediaManager = () => {
   const { media } = usePortfolio();
@@ -12,12 +12,13 @@ export const MediaManager = () => {
   const upload = async (files: FileList | null, kind: "image" | "video") => {
     if (!files) return;
     for (const f of Array.from(files)) {
-      const max = kind === "video" ? 15 : 3;
+      const max = kind === "video" ? 50 : 10;
       if (f.size > max * 1024 * 1024) {
         toast.error(`${f.name} too large (max ${max}MB)`);
         continue;
       }
-      const dataUrl = await fileToDataUrl(f);
+      let dataUrl: string;
+      try { dataUrl = await uploadMedia(f); } catch { toast.error(`Upload failed: ${f.name}`); continue; }
       portfolioStore.set((s) => ({
         ...s,
         media: [{ id: portfolioStore.newId(), kind, name: f.name, dataUrl, createdAt: Date.now() }, ...s.media],
