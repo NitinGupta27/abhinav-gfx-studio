@@ -1,6 +1,7 @@
 import { portfolioStore, usePortfolio, Service, SkillGroup, Testimonial } from "@/store/portfolio";
 import { Plus, Trash2 } from "lucide-react";
-import { inputCls, Field, fileToDataUrl } from "./ProjectsManager";
+import { inputCls, Field } from "./ProjectsManager";
+import { uploadMedia } from "@/lib/media";
 import { toast } from "sonner";
 import { useRef } from "react";
 
@@ -76,7 +77,7 @@ export const TestimonialsManager = () => {
 
   const uploadAvatar = async (id: string, f: File) => {
     if (f.size > 1024 * 1024) return toast.error("Avatar too large (max 1MB)");
-    update(id, { avatar: await fileToDataUrl(f) });
+    update(id, { avatar: await uploadMedia(f) });
   };
 
   return (

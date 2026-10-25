@@ -171,4 +171,4 @@ const Field = ({ label, children }: { label: string; children: React.ReactNode }
     {children}
   </label>
 );
-export { inputCls, Field, fileToDataUrl };
+export { inputCls, Field };
