@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Mail, Youtube, MessageCircle, Send } from "lucide-react";
+import { Mail, Youtube, MessageCircle, Send, Instagram, Phone } from "lucide-react";
+import { usePortfolio } from "@/store/portfolio";
 import { SectionHeading } from "./SectionHeading";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -10,13 +11,20 @@ const schema = z.object({
   message: z.string().trim().min(1, "Message required").max(1000),
 });
 
-const channels = [
-  { icon: Mail, label: "Email", value: "heyabhinavgupta@gmail.com", href: "mailto:heyabhinavgupta@gmail.com" },
-  { icon: Youtube, label: "YouTube", value: "@abhinavgupta_yt", href: "https://youtube.com/@abhinavgupta_yt?si=pEQ_ZLwcUb85grE1" },
-  { icon: MessageCircle, label: "Discord", value: "abhinavnitingupta", href: "#" },
-];
+const handle = (url: string) => {
+  const m = url.match(/(?:youtube\.com\/|instagram\.com\/)(@?[^/?#]+)/i);
+  return m ? (m[1].startsWith("@") ? m[1] : `@${m[1]}`) : url;
+};
 
 export const Contact = () => {
+  const { settings } = usePortfolio();
+  const channels = [
+    settings.email && { icon: Mail, label: "Email", value: settings.email, href: `mailto:${settings.email}` },
+    settings.phone && { icon: Phone, label: "Phone", value: settings.phone, href: `tel:${settings.phone.replace(/\s+/g, "")}` },
+    settings.youtube && { icon: Youtube, label: "YouTube", value: handle(settings.youtube), href: settings.youtube },
+    settings.instagram && { icon: Instagram, label: "Instagram", value: handle(settings.instagram), href: settings.instagram },
+    settings.discord && { icon: MessageCircle, label: "Discord", value: settings.discord, href: "#" },
+  ].filter(Boolean) as { icon: typeof Mail; label: string; value: string; href: string }[];
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
 
