@@ -107,12 +107,12 @@ const defaults: PortfolioState = {
   settings: {
     brand: "ABHINAV GFX",
     tagline: "Content Creator · Graphic Designer · Video Editor",
-    heroTitle: "Crafting bold visuals for modern creators",
-    heroSubtitle: "Premium design, video and AI-powered creative work.",
-    email: "abhinavnitingupta@gmail.com",
+    heroTitle: "Hi, I'm Abhinav",
+    heroSubtitle: "I create high-impact digital experiences through creative design, engaging content and powerful visuals that help brands stand out in the digital world.",
+    email: "heyabhinavgupta@gmail.com",
     phone: "",
     instagram: "https://instagram.com/abhinavgupta_yt",
-    youtube: "https://youtube.com/@abhinavgupta_yt",
+    youtube: "https://youtube.com/@abhinavgupta_yt?si=pEQ_ZLwcUb85grE1",
     discord: "abhinavnitingupta",
   },
 };
@@ -125,11 +125,24 @@ function emit() {
   listeners.forEach((l) => l());
 }
 
+const BUILT_IN_IMAGES: Record<string, string> = { "1": p1, "2": p2, "3": p3, "4": p4, "5": p5, "6": p6 };
+
+/** Built-in sample images get a different file path on the live site, so remap any saved path to the current one. */
+export function fixImage(src: string | undefined): string {
+  if (!src) return "";
+  if (src.startsWith("/src/assets/") || src.startsWith("/assets/")) {
+    const m = src.match(/project-(\d)(?:-[\w-]+)?\.jpg$/);
+    if (m && BUILT_IN_IMAGES[m[1]]) return BUILT_IN_IMAGES[m[1]];
+  }
+  return src;
+}
+
 function merge(raw: unknown): PortfolioState {
   const parsed = (raw ?? {}) as Partial<PortfolioState>;
   return {
     ...defaults,
     ...parsed,
+    projects: (parsed.projects || defaults.projects).map((p) => ({ ...p, image: fixImage(p.image), tools: p.tools || [] })),
     settings: { ...defaults.settings, ...(parsed.settings || {}) },
   };
 }

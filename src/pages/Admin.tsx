@@ -5,7 +5,7 @@ import { ProjectsManager } from "@/components/admin/ProjectsManager";
 import { MediaManager } from "@/components/admin/MediaManager";
 import { ServicesManager, SkillsManager, TestimonialsManager, SettingsManager } from "@/components/admin/Managers";
 import { isAdmin, logout } from "@/lib/auth";
-import { loadPortfolio } from "@/store/portfolio";
+import { loadPortfolio, portfolioStore } from "@/store/portfolio";
 import { LayoutDashboard, FolderKanban, Image, Sparkles, Wrench, MessageSquareQuote, Settings, LogOut, ExternalLink, Menu, X } from "lucide-react";
 
 type Tab = "overview" | "projects" | "media" | "services" | "skills" | "testimonials" | "settings";
@@ -25,6 +25,12 @@ const Admin = () => {
   const [checking, setChecking] = useState(true);
   const [tab, setTab] = useState<Tab>("overview");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    const off = portfolioStore.onSavingChange(setSaving);
+    return () => { off(); };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -99,6 +105,9 @@ const Admin = () => {
             <div className="flex-1 md:flex-none">
               <div className="text-xs text-muted-foreground uppercase tracking-widest">Section</div>
               <div className="font-display text-lg font-bold capitalize">{tab}</div>
+            </div>
+            <div className={`text-xs px-3 py-1.5 rounded-full border ${saving ? "border-primary/40 text-primary" : "border-white/10 text-muted-foreground"}`}>
+              {saving ? "Saving…" : "All changes live"}
             </div>
             {mobileOpen && <button onClick={() => setMobileOpen(false)} className="md:hidden p-2 rounded-lg glass"><X className="h-5 w-5" /></button>}
           </header>

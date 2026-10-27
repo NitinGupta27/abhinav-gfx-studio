@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import { usePortfolio } from "@/store/portfolio";
+
+const splitBrand = (b: string) => {
+  const i = b.trim().indexOf(" ");
+  return i > 0 ? [b.trim().slice(0, i), b.trim().slice(i + 1)] : [b.trim(), ""];
+};
+
 
 const links = [
   { label: "Home", href: "#home" },
@@ -12,6 +19,8 @@ const links = [
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { settings } = usePortfolio();
+  const [brandA, brandB] = splitBrand(settings.brand);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -25,10 +34,10 @@ export const Navbar = () => {
         <nav className={`flex items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 ${scrolled ? "glass-strong shadow-card" : "glass"}`}>
           <a href="#home" className="flex items-center gap-2 group">
             <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary text-sm font-bold text-primary-foreground glow-blue">
-              A
+              {brandA.charAt(0)}
             </span>
             <span className="font-display font-bold tracking-tight text-lg">
-              ABHINAV <span className="text-gradient">GFX</span>
+              {brandA} <span className="text-gradient">{brandB}</span>
             </span>
           </a>
           <ul className="hidden md:flex items-center gap-1">

@@ -1,7 +1,15 @@
 import heroVisual from "@/assets/hero-visual.jpg";
 import { ArrowRight, Sparkles, Video, Palette, Brain, Share2 } from "lucide-react";
+import { Fragment } from "react";
+import { usePortfolio } from "@/store/portfolio";
 
 export const Hero = () => {
+  const { settings } = usePortfolio();
+  const title = settings.heroTitle.trim();
+  const cut = title.lastIndexOf(" ");
+  const titleStart = cut > 0 ? title.slice(0, cut + 1) : "";
+  const titleEnd = cut > 0 ? title.slice(cut + 1) : title;
+  const roles = settings.tagline.split(/[·|]/).map((r) => r.trim()).filter(Boolean);
   return (
     <section id="home" className="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]" />
@@ -13,13 +21,18 @@ export const Hero = () => {
               <span className="text-muted-foreground">Available for new projects</span>
             </div>
             <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05]">
-              Hi, I'm <span className="text-gradient">Abhinav</span>
+              {titleStart}<span className="text-gradient">{titleEnd}</span>
             </h1>
             <p className="text-lg md:text-xl text-foreground/80 font-medium">
-              Content Creator <span className="text-muted-foreground mx-2">·</span> Graphic Designer <span className="text-muted-foreground mx-2">·</span> Video Editor
+              {roles.map((r, i) => (
+                <Fragment key={r + i}>
+                  {i > 0 && <span className="text-muted-foreground mx-2">·</span>}
+                  {r}
+                </Fragment>
+              ))}
             </p>
             <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed">
-              I create high-impact digital experiences through creative design, engaging content and powerful visuals that help brands stand out in the digital world.
+              {settings.heroSubtitle}
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
               <a href="#projects" className="group inline-flex items-center gap-2 rounded-xl bg-gradient-primary px-6 py-3.5 font-medium text-primary-foreground glow-blue hover:scale-[1.02] transition-transform">
