@@ -53,11 +53,19 @@ export interface Testimonial {
   avatar?: string;
 }
 
+export interface Stat {
+  value: string;
+  label: string;
+}
+
 export interface SiteSettings {
   brand: string;
   tagline: string;
   heroTitle: string;
   heroSubtitle: string;
+  aboutTitle: string;
+  aboutText: string;
+  stats: Stat[];
   email: string;
   phone: string;
   instagram: string;
@@ -109,6 +117,14 @@ const defaults: PortfolioState = {
     tagline: "Content Creator · Graphic Designer · Video Editor",
     heroTitle: "Hi, I'm Abhinav",
     heroSubtitle: "I create high-impact digital experiences through creative design, engaging content and powerful visuals that help brands stand out in the digital world.",
+    aboutTitle: "Crafting Digital Stories",
+    aboutText: "I'm Abhinav, a creative professional passionate about creating impactful digital experiences. I combine creativity, design thinking and modern tools to build visuals and content that connect with audiences.",
+    stats: [
+      { value: "50+", label: "Projects Completed" },
+      { value: "2+", label: "Years Experience" },
+      { value: "10+", label: "Creative Skills" },
+      { value: "100%", label: "Client Satisfaction" },
+    ],
     email: "heyabhinavgupta@gmail.com",
     phone: "",
     instagram: "https://instagram.com/abhinavgupta_yt",
