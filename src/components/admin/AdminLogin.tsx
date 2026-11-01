@@ -73,7 +73,11 @@ export const AdminLogin = ({ onSuccess }: { onSuccess: () => void }) => {
         >
           {loading ? "Authenticating…" : "Enter Dashboard"}
         </button>
-        <p className="text-[11px] text-center text-muted-foreground">Protected area · Unauthorized access is prohibited</p>
+        <p className="text-[11px] text-center text-muted-foreground">
+          Sign in with <span className="text-foreground/80">abhinavnitingupta@gmail.com</span> (or just type{" "}
+          <span className="text-foreground/80">abhinav</span>) and your password. Your edits save to the cloud and appear
+          on the live website once you see "All changes live".
+        </p>
       </form>
     </div>
   );
