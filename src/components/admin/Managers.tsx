@@ -125,6 +125,21 @@ export const SettingsManager = () => {
         <Field label="Tagline"><input className={inputCls} value={settings.tagline} onChange={(e) => update({ tagline: e.target.value })} /></Field>
         <Field label="Hero Title"><input className={inputCls} value={settings.heroTitle} onChange={(e) => update({ heroTitle: e.target.value })} /></Field>
         <Field label="Hero Subtitle"><input className={inputCls} value={settings.heroSubtitle} onChange={(e) => update({ heroSubtitle: e.target.value })} /></Field>
+        <Field label="About Title"><input className={inputCls} value={settings.aboutTitle} onChange={(e) => update({ aboutTitle: e.target.value })} /></Field>
+      </div>
+      <Field label="About Me Text (shown on the website)"><textarea className={inputCls} rows={3} value={settings.aboutText} onChange={(e) => update({ aboutText: e.target.value })} /></Field>
+      <div>
+        <h3 className="font-display text-lg font-semibold mb-3">Achievement Numbers</h3>
+        <div className="grid md:grid-cols-2 gap-4">
+          {settings.stats.map((stat, i) => (
+            <div key={i} className="glass rounded-2xl p-4 grid grid-cols-[100px_1fr] gap-3">
+              <Field label="Number"><input className={inputCls} value={stat.value} onChange={(e) => update({ stats: settings.stats.map((s, j) => (j === i ? { ...s, value: e.target.value } : s)) })} /></Field>
+              <Field label="Label"><input className={inputCls} value={stat.label} onChange={(e) => update({ stats: settings.stats.map((s, j) => (j === i ? { ...s, label: e.target.value } : s)) })} /></Field>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="grid md:grid-cols-2 gap-4">
         <Field label="Email"><input className={inputCls} value={settings.email} onChange={(e) => update({ email: e.target.value })} /></Field>
         <Field label="Phone"><input className={inputCls} value={settings.phone} onChange={(e) => update({ phone: e.target.value })} /></Field>
         <Field label="Instagram"><input className={inputCls} value={settings.instagram} onChange={(e) => update({ instagram: e.target.value })} /></Field>

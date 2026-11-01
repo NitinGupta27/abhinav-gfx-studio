@@ -3,7 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const ADMIN_EMAIL = "abhinavnitingupta@gmail.com";
 
 export async function login(email: string, password: string): Promise<{ ok: boolean; error?: string }> {
-  const trimmed = email.trim().toLowerCase();
+  let trimmed = email.trim().toLowerCase();
+
+  // Accept the original username shorthand.
+  if (trimmed === "abhinav" || trimmed === "abhinav gfx" || trimmed === "abhinavgfx") trimmed = ADMIN_EMAIL;
 
   let { error } = await supabase.auth.signInWithPassword({ email: trimmed, password });
 

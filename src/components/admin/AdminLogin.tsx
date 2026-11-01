@@ -38,16 +38,16 @@ export const AdminLogin = ({ onSuccess }: { onSuccess: () => void }) => {
 
         <div className="space-y-4">
           <label className="block">
-            <span className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">Email</span>
+            <span className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">Email or username</span>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 autoFocus
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-input/60 border border-white/10 focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20 transition"
-                placeholder="you@email.com"
+                placeholder="abhinavnitingupta@gmail.com or abhinav"
               />
             </div>
           </label>
@@ -73,7 +73,11 @@ export const AdminLogin = ({ onSuccess }: { onSuccess: () => void }) => {
         >
           {loading ? "Authenticating…" : "Enter Dashboard"}
         </button>
-        <p className="text-[11px] text-center text-muted-foreground">Protected area · Unauthorized access is prohibited</p>
+        <p className="text-[11px] text-center text-muted-foreground">
+          Sign in with <span className="text-foreground/80">abhinavnitingupta@gmail.com</span> (or just type{" "}
+          <span className="text-foreground/80">abhinav</span>) and your password. Your edits save to the cloud and appear
+          on the live website once you see "All changes live".
+        </p>
       </form>
     </div>
   );
